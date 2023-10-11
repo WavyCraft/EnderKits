@@ -1,6 +1,5 @@
 <p align="center">
     <a href="https://github.com/Terpz710/EnderKits"><img src="https://github.com/Terpz710/EnderKits/blob/main/icon.PNG"></img></a><br>
-    <b>Basic kit plugin</b>
 
 # Description
 
