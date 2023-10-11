@@ -5,4 +5,5 @@ branches:
 projects:
   EnderKits:
     path: ""
+    icon: icon.PNG
 ...
