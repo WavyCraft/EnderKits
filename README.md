@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/Terpz710/EnderKits"><img src="https://github.com/Terpz710/EnderKits/blob/main/icon.PNG"></img></a><br>
-    <b>Ender Kits plugin for Pocketmine-MP</b>
+    <b>Basic kit plugin</b>
 
 # Description
 
