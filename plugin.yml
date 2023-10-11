@@ -1,0 +1,18 @@
+name: EnderKits
+author: Terpz710
+main: Terpz710\EnderKits\Main
+version: 1.0.0
+api: [5.0.0]
+description: EnderKits plugin for Pocketmine-MP.
+
+permissions:
+  enderkits.kit:
+    description: "Enderkits Perm"
+    default: true
+  enderkits.kits:
+    description: "Enderkits Perm"
+    default: true
+  enderkits.vip:
+    description: "Enderkits Perm"
+    default: op
+
