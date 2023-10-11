@@ -161,10 +161,6 @@ kits:
         quantity: 2
     cooldown: 7200
 
-**messages.yml**
-
-coming soon...
-
 ```
 
 # TODO
