@@ -5,13 +5,12 @@ namespace Terpz710\EnderKits\Command;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
-use pocketmine\plugin\PluginOwned;
 use pocketmine\plugin\Plugin;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
 use Terpz710\EnderKits\Task\CooldownManager;
 
-class KitsCommand extends Command implements PluginOwned {
+class KitsCommand extends Command {
 
     /** @var Plugin */
     private $plugin;
@@ -22,10 +21,6 @@ class KitsCommand extends Command implements PluginOwned {
         $this->plugin = $plugin;
         $this->cooldownManager = $cooldownManager;
         $this->setPermission("enderkits.kits");
-    }
-
-    public function getOwningPlugin(): Plugin {
-        return $this->plugin;
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
