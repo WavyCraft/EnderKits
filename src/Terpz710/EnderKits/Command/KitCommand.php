@@ -18,7 +18,7 @@ use pocketmine\permission\DefaultPermissions;
 use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchantManager;
 use Terpz710\BankNotesPlus\BankNotesPlus;
 
-class KitCommand extends Command implements PluginOwned {
+class KitCommand extends Command {
 
     private $plugin;
     private $cooldownManager;
