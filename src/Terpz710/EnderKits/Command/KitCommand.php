@@ -78,7 +78,7 @@ class KitCommand extends Command {
                         $sender->sendMessage(TextFormat::WHITE . "You are on cooldown for §b{$kitName}§f. Cooldown remaining: §e{$timeLeft}§f seconds.");
                     }
                 } else {
-                    $sender->sendMessage(TextFormat::RED . "$kitName§f does not exist. Please do §e/kits§f to see the list of kits.");
+                    $sender->sendMessage(TextFormat::RED . "$kitName §fdoes not exist. Please do §e/kits§f to see the list of kits.");
                 }
             } else {
                 $sender->sendMessage("Usage: /kit <kitName>");
