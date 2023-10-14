@@ -4,7 +4,7 @@ main: Terpz710\EnderKits\Main
 version: 1.0.0
 api: [5.0.0]
 description: EnderKits plugin for Pocketmine-MP.
-depend: [Rank System]
+depend: [RankSystem]
 softdepend: [PiggyCustomEnchants]
 
 permissions:
