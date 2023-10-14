@@ -31,42 +31,67 @@
 #       quantity: item_quantity
 #       name: "Custom Item Name"
 #   cooldown: cooldown_in_seconds
+#   banknotes:
+#     - 1000
+#     - 5000
+#     - 20000
+#            **ERROR/CRASH OCOURS WHEN YOU DONT PUT QUANTITY UNDER THE ITEM.
+#                   Doesnt apply to armor.
 
 kits:
   test:
-    permissions: "ALL"
+    permissions: "enderkits.kit.test"
     armor:
       helmet:
         item: "diamond_helmet"
         enchantments:
           protection: 2
+          armored: 2
+          cactus: 3
       chestplate:
         item: "diamond_chestplate"
         enchantments:
           protection: 2
+          armored: 2
+          cactus: 3
       leggings:
         item: "diamond_leggings"
         enchantments:
           protection: 2
+          armored: 2
+          cactus: 3
       boots:
         item: "diamond_boots"
         enchantments:
           protection: 2
+          armored: 2
+          cactus: 3
     items:
       diamond_sword:
         enchantments:
           sharpness: 2
+          disarming: 1
+          aerial: 1
+          backstab: 1
         quantity: 1
+      diamond_pickaxe:
+        quantity: 1
+        enchantments:
+          telepathy: 3
+          efficiency: 5
+          autorepair: 3
       golden_apple:
         quantity: 5
       steak:
         quantity: 32
-      strength_potion:
-        quantity: 1
     cooldown: 86400
+    banknotes:
+      - 1000
+      - 5000
+      - 20000
 
   starter:
-    permissions: "ALL"
+    permissions: "enderkits.kit.starter"
     armor:
       helmet:
         item: "iron_helmet"
@@ -128,3 +153,7 @@ kits:
       swiftness_potion:
         quantity: 2
     cooldown: 7200
+    banknotes:
+      - 30000
+      - 50000
+      - 70000
