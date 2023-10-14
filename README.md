@@ -15,14 +15,6 @@ permissions:
   enderkits.kits:
     description: "Enderkits Perm"
     default: true
-
-**NOTICE**
-
-To use the EnderKits permission system youll have to add this to your permission manager plugin. After its smooth sailing all yoi gotta do is type "ALL" for public use or "VIP" to lock the kit.
-
-  enderkits.vip:
-    description: "Enderkits Perm"
-    default: op
 ```
 
 # CONFIG
@@ -34,7 +26,7 @@ To use the EnderKits permission system youll have to add this to your permission
 # To create a kit, follow this structure:
 #
 # kit_name:
-#   permissions: "VIP/ALL"  # Add the permission node required to access this kit
+#   permissions: "enderkits.kit.(kitname)"  # Add the permission node required to access this kit
 #   armor:  # Armor items
 #     helmet:
 #       item: "item_id"  # The item ID for the helmet (e.g., "diamond_helmet")
@@ -63,7 +55,10 @@ To use the EnderKits permission system youll have to add this to your permission
 #       quantity: item_quantity
 #       name: "Custom Item Name"
 #   cooldown: cooldown_in_seconds
-
+#   banknotes:
+#     - 1000
+#     - 5000
+#     - 20000
 kits:
   test:
     permissions: "ALL"
@@ -96,6 +91,10 @@ kits:
       strength_potion:
         quantity: 1
     cooldown: 86400
+    banknotes:
+      - 1000
+      - 5000
+      - 20000
 
   starter:
     permissions: "ALL"
@@ -166,8 +165,8 @@ kits:
 # TODO
 
 - [ ] Make a messages.yml to handle messages.
-- [ ] Add an ecomony system.
-- [ ] Maybe add custom enchant if pigman decides to update.
+- [ ] Add an ecomony system.(Semi completed)
+- [x] Maybe add custom enchant if pigman decides to update.
 - [ ] Add more features to the kit such effects when claimed.(Maybe)
-- [ ] Add other plugin support.
+- [x] Add other plugin support.
 - [ ] Add UI support(Will make it an off/on)
