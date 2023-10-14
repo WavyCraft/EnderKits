@@ -8,7 +8,6 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\plugin\Plugin;
-use pocketmine\plugin\PluginOwned;
 use pocketmine\item\enchantment\StringToEnchantmentParser;
 use pocketmine\item\StringToItemParser;
 use pocketmine\item\enchantment\EnchantmentInstance;
@@ -43,10 +42,6 @@ class KitCommand extends Command implements PluginOwned {
                     $sender->sendMessage(TextFormat::RED . "Kit configuration is missing or invalid. Please follow the kit format and try again.");
                     return true;
                 }
-
-        public function getOwningPlugin(): Plugin {
-        return $this->plugin;
-    }
 
                 if (isset($kitConfig[$kitName])) {
                     $playerPermissions = $sender->getEffectivePermissions();
