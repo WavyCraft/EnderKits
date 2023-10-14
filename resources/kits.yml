@@ -2,7 +2,7 @@
 # To create a kit, follow this structure:
 #
 # kit_name:
-#   permissions: "VIP/ALL"  # Add the permission node required to access this kit
+#   permissions: "enderkits.kit.(kitname)"  # Add the permission node required to access this kit
 #   armor:  # Armor items
 #     helmet:
 #       item: "item_id"  # The item ID for the helmet (e.g., "diamond_helmet")
