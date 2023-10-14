@@ -5,6 +5,10 @@
 
 A simple kits plugin for Pocketmine-MP. This plugin will allow you to create unlimited kits with easy to use permission and cool down sytsem. Very easy configurable kits.yml.
 
+- Added custom permissions
+- PiggyCustomEnchant Support👏
+- Added bank notes to the kit(MUST USE MY BANK NOTES PLUGIN CALLED "BankNotesPlus")
+  
 # Permissions
 
 ```
