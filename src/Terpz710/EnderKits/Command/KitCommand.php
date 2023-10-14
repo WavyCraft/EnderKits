@@ -7,32 +7,30 @@ namespace Terpz710\EnderKits\Command;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
-use pocketmine\plugin\PluginOwned;
 use pocketmine\plugin\Plugin;
+use pocketmine\plugin\PluginOwned;
 use pocketmine\item\enchantment\StringToEnchantmentParser;
 use pocketmine\item\StringToItemParser;
 use pocketmine\item\enchantment\EnchantmentInstance;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
 use Terpz710\EnderKits\Task\CooldownManager;
+use pocketmine\permission\DefaultPermissions;
+use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchantManager;
+use Terpz710\BankNotesPlus\BankNotesPlus;
 
-class KitCommand extends Command implements PluginOwned {
+class KitCommand extends Command  implements PluginOwned {
 
-    /** @var Plugin */
     private $plugin;
-
-    /** @var CooldownManager */
     private $cooldownManager;
+    private $bankNotesPlusPlugin;
 
-    public function __construct(Plugin $plugin, CooldownManager $cooldownManager) {
-        parent::__construct("kit", "Grab a kit! See kit list using /kits", "/kit <kitName>");
+    public function __construct(Plugin $plugin, CooldownManager $cooldownManager, BankNotesPlus $bankNotesPlusPlugin) {
+        parent::__construct("kit", "Grab a kit! See the list of kits using /kits", "/kit <kitName>");
         $this->plugin = $plugin;
         $this->cooldownManager = $cooldownManager;
+        $this->bankNotesPlusPlugin = $bankNotesPlusPlugin;
         $this->setPermission("enderkits.kit");
-    }
-
-    public function getOwningPlugin(): Plugin {
-        return $this->plugin;
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
@@ -46,30 +44,58 @@ class KitCommand extends Command implements PluginOwned {
                     return true;
                 }
 
+        public function getOwningPlugin(): Plugin {
+        return $this->plugin;
+    }
+
                 if (isset($kitConfig[$kitName])) {
+                    $playerPermissions = $sender->getEffectivePermissions();
+                    $isOp = false;
+
+                    foreach ($playerPermissions as $permission) {
+                        if (strtolower($permission->getPermission()) === DefaultPermissions::ROOT_OPERATOR) {
+                            $isOp = true;
+                            break;
+                        }
+                    }
+
+                    $requiredPermission = "enderkits.kit." . $kitName;
+
+                    if (!$isOp) {
+                        if (!$this->hasPermission($sender, $requiredPermission)) {
+                            $sender->sendMessage(TextFormat::RED . "You don't have the required permission to access the §b{$kitName}§c kit.");
+                            return true;
+                        }
+                    }
+
                     $cooldownManager = $this->cooldownManager;
 
                     if (!$cooldownManager->hasCooldown($sender, $kitName)) {
                         $this->applyKit($sender, $kitConfig[$kitName]);
 
-                        $sender->sendMessage(TextFormat::WHITE . "You successfully claimed§b $kitName §f!");
+                        $sender->sendMessage(TextFormat::WHITE . "You successfully claimed §b{$kitName}§f!");
 
-                        $cooldownManager->addKitUsage($sender, $kitName, 3600);
+                        $cooldown = isset($kitConfig[$kitName]['cooldown']) ? (int) $kitConfig[$kitName]['cooldown'] : 3600;
 
+                        $cooldownManager->addKitUsage($sender, $kitName, $cooldown);
                     } else {
                         $timeLeft = $cooldownManager->getCooldownTimeLeft($sender, $kitName);
-                        $sender->sendMessage(TextFormat::WHITE . "You are on cooldown for§b $kitName §f Cooldown remaining:§e $timeLeft §fseconds.");
+                        $sender->sendMessage(TextFormat::WHITE . "You are on cooldown for §b{$kitName}§f. Cooldown remaining: §e{$timeLeft}§f seconds.");
                     }
                 } else {
-                    $sender->sendMessage(TextFormat::RED . "$kitName §fdoes not exist. Please do §e/kits§f to see the list of kits");
+                    $sender->sendMessage(TextFormat::RED . "$kitName§f does not exist. Please do §e/kits§f to see the list of kits.");
                 }
             } else {
-                $sender->sendMessage("Usage: /kit <kit>");
+                $sender->sendMessage("Usage: /kit <kitName>");
             }
         } else {
             $sender->sendMessage("This command can only be used in-game.");
         }
         return true;
+    }
+
+    private function hasPermission(Player $player, string $permission) {
+        return $player->hasPermission($permission);
     }
 
     private function loadKitConfig() {
@@ -100,6 +126,9 @@ class KitCommand extends Command implements PluginOwned {
                         if (isset($armorData["enchantments"])) {
                             foreach ($armorData["enchantments"] as $enchantmentName => $level) {
                                 $enchantment = StringToEnchantmentParser::getInstance()->parse($enchantmentName);
+                                if ($enchantment === null && class_exists(CustomEnchantManager::class)) {
+                                    $enchantment = CustomEnchantManager::getEnchantmentByName($enchantmentName);
+                                }
                                 if ($enchantment !== null) {
                                     $enchantmentInstance = new EnchantmentInstance($enchantment, (int) $level);
                                     $item->addEnchantment($enchantmentInstance);
@@ -133,6 +162,9 @@ class KitCommand extends Command implements PluginOwned {
                 if (isset($itemData["enchantments"])) {
                     foreach ($itemData["enchantments"] as $enchantmentName => $level) {
                         $enchantment = StringToEnchantmentParser::getInstance()->parse($enchantmentName);
+                        if ($enchantment === null && class_exists(CustomEnchantManager::class)) {
+                            $enchantment = CustomEnchantManager::getEnchantmentByName($enchantmentName);
+                        }
                         if ($enchantment !== null) {
                             $enchantmentInstance = new EnchantmentInstance($enchantment, (int) $level);
                             $item->addEnchantment($enchantmentInstance);
@@ -151,6 +183,14 @@ class KitCommand extends Command implements PluginOwned {
             }
 
             $inventory->addItem(...$items);
+        }
+
+        if (isset($kitData["banknotes"])) {
+            if ($this->bankNotesPlusPlugin instanceof BankNotesPlus) {
+                foreach ($kitData["banknotes"] as $amount) {
+                    $this->bankNotesPlusPlugin->convertToBankNote($player, $amount);
+                }
+            }
         }
     }
 }
