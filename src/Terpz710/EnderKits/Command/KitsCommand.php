@@ -7,16 +7,14 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginOwned;
 use pocketmine\plugin\Plugin;
-use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
+use pocketmine\utils\TextFormat;
 use Terpz710\EnderKits\Task\CooldownManager;
 
 class KitsCommand extends Command implements PluginOwned {
 
     /** @var Plugin */
     private $plugin;
-    
-    /** @var CooldownManager */
     private $cooldownManager;
 
     public function __construct(Plugin $plugin, CooldownManager $cooldownManager) {
@@ -35,28 +33,31 @@ class KitsCommand extends Command implements PluginOwned {
             $kitConfig = $this->loadKitConfig();
 
             if ($kitConfig === null) {
-                $sender->sendMessage(TextFormat::RED . "Kit configuration is missing or invalid. Please follow the kit format and try again");
+                $sender->sendMessage(TextFormat::RED . "Kit configuration is missing or invalid. Please follow the kit format and try again.");
                 return true;
             }
 
-            $kitsList = [];
+            $claimedKits = [];
+            $availableKits = [];
+            $lockedKits = [];
 
             foreach ($kitConfig as $kitName => $kitData) {
-                $requiredPermission = $kitData['permissions'] ?? null;
+                $requiredPermission = "enderkits.kit." . $kitName;
 
-                if ($requiredPermission === "ALL" || ($requiredPermission === "VIP" && $sender->hasPermission("enderkits.vip"))) {
-                    if (!$this->cooldownManager->hasCooldown($sender, $kitName)) {
-                        $kitsList[] = TextFormat::GREEN . $kitName;
-                    } else {
-                        $kitsList[] = TextFormat::RED . $kitName . " (Cooldown)";
-                    }
+                if ($this->cooldownManager->hasCooldown($sender, $kitName)) {
+                    $claimedKits[] = $kitName;
+                } elseif ($sender->hasPermission($requiredPermission)) {
+                    $availableKits[] = $kitName;
                 } else {
-                    $kitsList[] = TextFormat::RED . $kitName;
+                    $lockedKits[] = $kitName;
                 }
             }
 
-            $kitsList = implode(", ", $kitsList);
-            $sender->sendMessage("Available kits: $kitsList");
+            $this->updateKitConfig($sender->getName(), $claimedKits, $lockedKits);
+
+            $sender->sendMessage("Available Kits:§b " . implode("§f,§b ", $availableKits));
+            $sender->sendMessage("Claimed Kits:§e " . implode("§f,§e ", $claimedKits));
+            $sender->sendMessage("Locked Kits:§c " . implode("§f,§c ", $lockedKits));
         } else {
             $sender->sendMessage("This command can only be used in-game.");
         }
@@ -74,5 +75,33 @@ class KitsCommand extends Command implements PluginOwned {
             }
         }
         return [];
+    }
+
+    private function updateKitConfig(string $playerName, array $claimedKits, array $lockedKits) {
+        $configPath = $this->plugin->getDataFolder() . "kits.yml";
+
+        if (file_exists($configPath)) {
+            $config = new Config($configPath, Config::YAML);
+            $kitData = $config->get("kits");
+
+            if ($kitData !== null && is_array($kitData)) {
+                foreach ($claimedKits as $kitName) {
+                    if (!isset($kitData[$kitName])) {
+                        $kitData[$kitName] = [];
+                    }
+                    $kitData[$kitName]["status"] = "claimed";
+                }
+
+                foreach ($lockedKits as $kitName) {
+                    if (!isset($kitData[$kitName])) {
+                        $kitData[$kitName] = [];
+                    }
+                    $kitData[$kitName]["status"] = "locked";
+                }
+
+                $config->set("kits", $kitData);
+                $config->save();
+            }
+        }
     }
 }
