@@ -44,7 +44,7 @@ class KitCommand extends Command  implements PluginOwned {
                     return true;
                 }
 
-        public function getOwningPlugin(): Plugin {
+        private function getOwningPlugin(): Plugin {
         return $this->plugin;
     }
 
