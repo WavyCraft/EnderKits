@@ -8,6 +8,7 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\plugin\Plugin;
+use pocketmine\plugin\PluginOwned;
 use pocketmine\item\enchantment\StringToEnchantmentParser;
 use pocketmine\item\StringToItemParser;
 use pocketmine\item\enchantment\EnchantmentInstance;
@@ -18,7 +19,7 @@ use pocketmine\permission\DefaultPermissions;
 use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchantManager;
 use Terpz710\BankNotesPlus\BankNotesPlus;
 
-class KitCommand extends Command {
+class KitCommand extends Command implements PluginOwned {
 
     private $plugin;
     private $cooldownManager;
@@ -30,6 +31,10 @@ class KitCommand extends Command {
         $this->cooldownManager = $cooldownManager;
         $this->bankNotesPlusPlugin = $bankNotesPlusPlugin;
         $this->setPermission("enderkits.kit");
+    }
+
+    public function getOwningPlugin(): Plugin {
+        return $this->plugin;
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
