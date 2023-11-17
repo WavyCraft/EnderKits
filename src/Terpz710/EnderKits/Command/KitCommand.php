@@ -73,13 +73,20 @@ class KitCommand extends Command implements PluginOwned {
                     $cooldownManager = $this->cooldownManager;
 
                     if (!$cooldownManager->hasCooldown($sender, $kitName)) {
-                        $this->applyKit($sender, $kitConfig[$kitName]);
+                        $inventorySpaceNeeded = $this->calculateInventorySpaceNeeded($kitConfig[$kitName]);
+                        $freeSlots = $this->getFreeInventorySlots($sender);
 
-                        $sender->sendMessage(TextFormat::WHITE . "You successfully claimed §b{$kitName}§f!");
+                        if ($freeSlots >= $inventorySpaceNeeded) {
+                            $this->applyKit($sender, $kitConfig[$kitName]);
 
-                        $cooldown = isset($kitConfig[$kitName]['cooldown']) ? (int) $kitConfig[$kitName]['cooldown'] : 3600;
+                            $sender->sendMessage(TextFormat::WHITE . "You successfully claimed §b{$kitName}§f!");
 
-                        $cooldownManager->addKitUsage($sender, $kitName, $cooldown);
+                            $cooldown = isset($kitConfig[$kitName]['cooldown']) ? (int) $kitConfig[$kitName]['cooldown'] : 3600;
+
+                            $cooldownManager->addKitUsage($sender, $kitName, $cooldown);
+                        } else {
+                            $sender->sendMessage(TextFormat::RED . "You don't have enough inventory space to claim the §b{$kitName}§c kit.");
+                        }
                     } else {
                         $timeLeft = $cooldownManager->getCooldownTimeLeft($sender, $kitName);
                         $sender->sendMessage(TextFormat::WHITE . "You are on cooldown for §b{$kitName}§f. Cooldown remaining: §e{$timeLeft}§f seconds.");
@@ -207,5 +214,30 @@ class KitCommand extends Command implements PluginOwned {
                 }
             }
         }
+    }
+
+    private function calculateInventorySpaceNeeded(array $kitData): int {
+        $slotsNeeded = 0;
+
+        if (isset($kitData["armor"])) {
+            $slotsNeeded += count($kitData["armor"]);
+        }
+
+        if (isset($kitData["items"])) {
+            foreach ($kitData["items"] as $itemData) {
+                $quantity = isset($itemData["quantity"]) ? (int) $itemData["quantity"] : 1;
+                $slotsNeeded += $quantity;
+            }
+        }
+
+        return $slotsNeeded;
+    }
+
+    private function getFreeInventorySlots(Player $player): int {
+        $inventory = $player->getInventory();
+        $occupiedSlots = $inventory->firstEmpty(true);
+        $totalSlots = $inventory->getSize();
+
+        return $totalSlots - $occupiedSlots;
     }
 }
