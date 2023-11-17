@@ -36,79 +36,126 @@
 #     - 5000
 #     - 20000
 #            **ERROR/CRASH OCOURS WHEN YOU DONT PUT QUANTITY UNDER THE ITEM.**
-#.                   **ASWELL AS PUTTING IN WRONG ENCHANTMENT NAMES**
-#                               Doesnt apply to armor.
-
-chest_kit: true
+#                                Doesnt apply to armor
+#                    **ASWELL AS PUTTING IN WRONG ENCHANTMENT NAMES**
+#                                Applys to all enchantable items             
 
 kits:
-  diamond_kit:
-    lore: "Diamond Kit \n Tap to claim"
+  test:
+    permissions: "enderkits.kit.test"
     armor:
       helmet:
         item: "diamond_helmet"
         enchantments:
-          protection: 3
-        name: "&bDiamond Helmet"
+          protection: 2
+          armored: 2
+          cactus: 3
       chestplate:
         item: "diamond_chestplate"
         enchantments:
-          protection: 3
-        name: "&bDiamond Chestplate"
+          protection: 2
+          armored: 2
+          cactus: 3
       leggings:
         item: "diamond_leggings"
         enchantments:
-          protection: 3
-        name: "&bDiamond Leggings"
+          protection: 2
+          armored: 2
+          cactus: 3
       boots:
         item: "diamond_boots"
         enchantments:
-          protection: 3
-        name: "&bDiamond Boots"
+          protection: 2
+          armored: 2
+          cactus: 3
     items:
       diamond_sword:
         enchantments:
-          sharpness: 5
-        name: "&bSharp Diamond Sword"
+          sharpness: 2
+          disarming: 1
+          aerial: 1
+          backstab: 1
+        quantity: 1
+      diamond_pickaxe:
+        quantity: 1
+        enchantments:
+          telepathy: 3
+          efficiency: 5
+          autorepair: 3
       golden_apple:
         quantity: 5
-        name: "&eGolden Apple"
+      steak:
+        quantity: 32
+    cooldown: 86400
     banknotes:
-      - 100
-      - 200
-    cooldown: 3600
+      - 1000
+      - 5000
+      - 20000
 
-  iron_kit:
+  starter:
+    permissions: "enderkits.kit.starter"
     armor:
       helmet:
         item: "iron_helmet"
         enchantments:
-          protection: 2
-        name: "&fIron Helmet"
+          protection: 1
       chestplate:
         item: "iron_chestplate"
         enchantments:
-          protection: 2
-        name: "&fIron Chestplate"
+          protection: 1
       leggings:
         item: "iron_leggings"
         enchantments:
-          protection: 2
-        name: "&fIron Leggings"
+          protection: 1
       boots:
         item: "iron_boots"
         enchantments:
-          protection: 2
-        name: "&fIron Boots"
+          protection: 1
+    items:
+      stone_sword:
+        enchantments:
+          sharpness: 1
+        quantity: 1
+      stone_pickaxe:
+        quantity: 1
+      bread:
+        quantity: 32
+      apple:
+        quantity: 10
+    cooldown: 3600
+
+  vip:
+    permissions: "VIP"
+    armor:
+      helmet:
+        item: "chainmail_helmet"
+        enchantments:
+          protection: 3
+      chestplate:
+        item: "chainmail_chestplate"
+        enchantments:
+          protection: 3
+      leggings:
+        item: "chainmail_leggings"
+        enchantments:
+          protection: 3
+      boots:
+        item: "chainmail_boots"
+        enchantments:
+          protection: 3
     items:
       iron_sword:
         enchantments:
           sharpness: 3
-        name: "&fSharp Iron Sword"
-      steak:
-        quantity: 10
-        name: "&fSteak"
+        quantity: 1
+      carrot:
+        quantity: 8
+      chicken:
+        quantity: 16
+      swiftness_potion:
+        quantity: 2
+    cooldown: 7200
     banknotes:
-      - 50
-      - 75
-    cooldown: 1800
+      - 30000
+      - 50000
+      - 70000
