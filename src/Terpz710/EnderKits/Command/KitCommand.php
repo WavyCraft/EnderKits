@@ -136,21 +136,26 @@ class KitCommand extends Command implements PluginOwned {
                             }
                         }
 
+                        if (isset($armorData["name"])) {
+                            $item->setCustomName(TextFormat::colorize($armorData["name"]));
+                        }
+
                         $currentArmorItem = $armorInventory->{"get" . ucfirst($armorType)}();
                         if ($currentArmorItem->isNull()) {
                             $armorInventory->{"set" . ucfirst($armorType)}($item);
                         } else {
                             $extraArmor[] = $item;
                         }
-
-                        if (isset($armorData["name"])) {
-                            $item->setCustomName(TextFormat::colorize($armorData["name"]));
-                        }
                     }
                 }
             }
 
-            // Filter out null values from $extraArmor array
+            foreach ($extraArmor as $extraArmorItem) {
+                if (isset($armorData["name"])) {
+                    $extraArmorItem->setCustomName(TextFormat::colorize($armorData["name"]));
+                }
+            }
+
             $extraArmor = array_filter($extraArmor, function ($item) {
                 return $item !== null;
             });
