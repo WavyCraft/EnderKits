@@ -8,5 +8,4 @@ projects:
     icon: icon.PNG
     lint:
       phpstan: false
-
 ...
