@@ -24,7 +24,7 @@ class KitCommand extends Command implements PluginOwned {
 
     private $plugin;
     private $cooldownManager;
-    private $bankNotesPlusPlugin
+    private $bankNotesPlusPlugin;
 
     public function __construct(Plugin $plugin, CooldownManager $cooldownManager, BankNotesPlus $bankNotesPlusPlugin) {
         parent::__construct("kit", "Grab a kit! See the list of kits using /kits", "/kit <kitName>");
