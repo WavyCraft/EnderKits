@@ -35,8 +35,9 @@
 #     - 1000
 #     - 5000
 #     - 20000
-#            **ERROR/CRASH OCOURS WHEN YOU DONT PUT QUANTITY UNDER THE ITEM.
-#                   Doesnt apply to armor.
+#            **ERROR/CRASH OCOURS WHEN YOU DONT PUT QUANTITY UNDER THE ITEM.**
+#.                   **ASWELL AS PUTTING IN WRONG ENCHANTMENT NAMES**
+#                               Doesnt apply to armor.
 
 kits:
   test:
@@ -123,7 +124,7 @@ kits:
     cooldown: 3600
 
   vip:
-    permissions: "VIP"
+    permissions: "enderkits.kit.vip"
     armor:
       helmet:
         item: "chainmail_helmet"
