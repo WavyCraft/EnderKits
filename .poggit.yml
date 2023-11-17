@@ -6,4 +6,7 @@ projects:
   EnderKits:
     path: ""
     icon: icon.PNG
+    lint:
+      phpstan: false
+
 ...
