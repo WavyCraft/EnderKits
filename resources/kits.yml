@@ -46,30 +46,35 @@ kits:
     armor:
       helmet:
         item: "diamond_helmet"
+        name: Test Helmet
         enchantments:
           protection: 2
           armored: 2
           cactus: 3
       chestplate:
         item: "diamond_chestplate"
+        name: Test Chestplate
         enchantments:
           protection: 2
           armored: 2
           cactus: 3
       leggings:
         item: "diamond_leggings"
+        name: Test Leggings
         enchantments:
           protection: 2
           armored: 2
           cactus: 3
       boots:
         item: "diamond_boots"
+        name: Test Boots
         enchantments:
           protection: 2
           armored: 2
           cactus: 3
     items:
       diamond_sword:
+        name: Test Sword
         enchantments:
           sharpness: 2
           disarming: 1
@@ -77,6 +82,7 @@ kits:
           backstab: 1
         quantity: 1
       diamond_pickaxe:
+        name: Test Pickaxe
         quantity: 1
         enchantments:
           telepathy: 3
@@ -125,7 +131,7 @@ kits:
     cooldown: 3600
 
   vip:
-    permissions: "VIP"
+    permissions: "enderkits.kit.vip"
     armor:
       helmet:
         item: "chainmail_helmet"
