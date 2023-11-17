@@ -166,26 +166,31 @@ class KitCommand extends Command implements PluginOwned {
                 $item = StringToItemParser::getInstance()->parse($itemName);
 
                 if ($item !== null) {
-                    if (isset($itemData["enchantments"])) {
-                        foreach ($itemData["enchantments"] as $enchantmentName => $level) {
-                            $enchantment = StringToEnchantmentParser::getInstance()->parse($enchantmentName);
-                            if ($enchantment === null && class_exists(CustomEnchantManager::class)) {
-                                $enchantment = CustomEnchantManager::getEnchantmentByName($enchantmentName);
-                            }
-                            if ($enchantment !== null) {
-                                $enchantmentInstance = new EnchantmentInstance($enchantment, (int) $level);
-                                $item->addEnchantment($enchantmentInstance);
-                            } else {
-                                $item = VanillaItems::AIR();
+                    $quantity = isset($itemData["quantity"]) ? (int) $itemData["quantity"] : 1;
+
+                    for ($i = 0; $i < $quantity; $i++) {
+                        $clonedItem = clone $item;
+                        if (isset($itemData["enchantments"])) {
+                            foreach ($itemData["enchantments"] as $enchantmentName => $level) {
+                                $enchantment = StringToEnchantmentParser::getInstance()->parse($enchantmentName);
+                                if ($enchantment === null && class_exists(CustomEnchantManager::class)) {
+                                    $enchantment = CustomEnchantManager::getEnchantmentByName($enchantmentName);
+                                }
+                                if ($enchantment !== null) {
+                                    $enchantmentInstance = new EnchantmentInstance($enchantment, (int) $level);
+                                    $clonedItem->addEnchantment($enchantmentInstance);
+                                } else {
+                                    $clonedItem = VanillaItems::AIR();
+                                }
                             }
                         }
-                    }
 
-                    if (isset($itemData["name"])) {
-                        $item->setCustomName(TextFormat::colorize($itemData["name"]));
-                    }
+                        if (isset($itemData["name"])) {
+                            $clonedItem->setCustomName(TextFormat::colorize($itemData["name"]));
+                        }
 
-                    $items[] = $item;
+                        $items[] = $clonedItem;
+                    }
                 } else {
                     $item = VanillaItems::AIR();
                     $inventory->addItem($item);
