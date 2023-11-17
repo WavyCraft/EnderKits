@@ -8,6 +8,8 @@ A simple kits plugin for Pocketmine-MP. This plugin will allow you to create unl
 - Added custom permissions
 - PiggyCustomEnchant Support👏
 - Added bank notes to the kit(MUST USE MY BANK NOTES PLUGIN CALLED "BankNotesPlus")
+
+- BankNotesPlus: https://poggit.pmmp.io/ci/Terpz710/BankNotesPlus/BankNotesPlus/dev:4
   
 # Permissions
 
