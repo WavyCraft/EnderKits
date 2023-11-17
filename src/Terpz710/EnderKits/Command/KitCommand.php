@@ -27,6 +27,8 @@ class KitCommand extends Command implements PluginOwned {
     private $cooldownManager;
     private $bankNotesPlusPlugin;
 
+    private $lowInventoryThreshold = 2;
+
     public function __construct(Plugin $plugin, CooldownManager $cooldownManager, BankNotesPlus $bankNotesPlusPlugin) {
         parent::__construct("kit", "Grab a kit! See the list of kits using /kits", "/kit <kitName>");
         $this->plugin = $plugin;
@@ -77,6 +79,7 @@ class KitCommand extends Command implements PluginOwned {
                         $freeSlots = $this->getFreeInventorySlots($sender);
 
                         if ($freeSlots >= $inventorySpaceNeeded) {
+                            // Player has enough inventory space, proceed with applying the kit
                             $this->applyKit($sender, $kitConfig[$kitName]);
 
                             $sender->sendMessage(TextFormat::WHITE . "You successfully claimed §b{$kitName}§f!");
@@ -85,7 +88,7 @@ class KitCommand extends Command implements PluginOwned {
 
                             $cooldownManager->addKitUsage($sender, $kitName, $cooldown);
                         } else {
-                            $sender->sendMessage(TextFormat::RED . "You don't have enough inventory space to claim the §b{$kitName}§c kit.");
+                            $sender->sendMessage(TextFormat::RED . "You don't have enough inventory space to claim the §b{$kitName}§c kit. Free up some space and try again.");
                         }
                     } else {
                         $timeLeft = $cooldownManager->getCooldownTimeLeft($sender, $kitName);
