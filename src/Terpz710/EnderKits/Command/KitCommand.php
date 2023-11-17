@@ -149,6 +149,12 @@ class KitCommand extends Command implements PluginOwned {
                     }
                 }
             }
+
+            // Filter out null values from $extraArmor array
+            $extraArmor = array_filter($extraArmor, function ($item) {
+                return $item !== null;
+            });
+
             $player->getInventory()->addItem(...$extraArmor);
         }
 
