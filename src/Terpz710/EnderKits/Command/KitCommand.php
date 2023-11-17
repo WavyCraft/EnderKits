@@ -14,40 +14,28 @@ use pocketmine\item\StringToItemParser;
 use pocketmine\item\enchantment\EnchantmentInstance;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\Config;
-use Terpz710\EnderKits\Task\CooldownManager;
 use pocketmine\permission\DefaultPermissions;
-use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchantManager;
+
 use Terpz710\BankNotesPlus\BankNotesPlus;
-use pocketmine\block\VanillaBlocks;
+use Terpz710\EnderKits\Task\CooldownManager;
+use DaPigGuy\PiggyCustomEnchants\enchants\CustomEnchantManager;
 
 class KitCommand extends Command implements PluginOwned {
 
     private $plugin;
     private $cooldownManager;
-    private $bankNotesPlusPlugin;
-    private $useChestKitLore;
+    private $bankNotesPlusPlugin
 
     public function __construct(Plugin $plugin, CooldownManager $cooldownManager, BankNotesPlus $bankNotesPlusPlugin, bool $useChestKitLore) {
         parent::__construct("kit", "Grab a kit! See the list of kits using /kits", "/kit <kitName>");
         $this->plugin = $plugin;
         $this->cooldownManager = $cooldownManager;
         $this->bankNotesPlusPlugin = $bankNotesPlusPlugin;
-        $this->useChestKitLore = $useChestKitLore;
         $this->setPermission("enderkits.kit");
     }
 
     public function getOwningPlugin(): Plugin {
         return $this->plugin;
-    }
-
-    private function sendKit(Player $player, string $name, string $lore = ""): void {
-        $kit = VanillaBlocks::CHEST()->asItem();
-        $kit->getNamedTag()->setString("chestkits", $name);
-        $kit->setCustomName($name);
-        if ($this->useChestKitLore) {
-            $kit->setLore([$lore]);
-        }
-        $player->getInventory()->addItem($kit);
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
@@ -84,12 +72,6 @@ class KitCommand extends Command implements PluginOwned {
                     $cooldownManager = $this->cooldownManager;
 
                     if (!$cooldownManager->hasCooldown($sender, $kitName)) {
-                        if ($kitName === "chest") {
-                            $this->sendKit($sender, "Chest Kit", $this->useChestKitLore ? "A special kit containing a chest" : "");
-                            $sender->sendMessage(TextFormat::WHITE . "You successfully claimed §bChest Kit§f!");
-                            return true;
-                        }
-
                         $this->applyKit($sender, $kitConfig[$kitName]);
 
                         $sender->sendMessage(TextFormat::WHITE . "You successfully claimed §b{$kitName}§f!");
@@ -131,8 +113,6 @@ class KitCommand extends Command implements PluginOwned {
     }
 
     private function applyKit(Player $player, array $kitData) {
-        $extraArmor = [];
-
         if (isset($kitData["armor"])) {
             $armorInventory = $player->getArmorInventory();
             foreach (["helmet", "chestplate", "leggings", "boots"] as $armorType) {
@@ -163,17 +143,11 @@ class KitCommand extends Command implements PluginOwned {
                         if ($currentArmorItem->isNull()) {
                             $armorInventory->{"set" . ucfirst($armorType)}($item);
                         } else {
-                            $extraArmor[] = $item;
+                            $player->getInventory()->addItem($item);
                         }
                     }
                 }
             }
-
-            $extraArmor = array_filter($extraArmor, function ($item) {
-                return $item !== null;
-            });
-
-            $player->getInventory()->addItem(...$extraArmor);
         }
 
         if (isset($kitData["items"])) {
