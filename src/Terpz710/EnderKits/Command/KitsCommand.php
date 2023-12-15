@@ -21,7 +21,7 @@ class KitsCommand extends Command implements PluginOwned {
         parent::__construct("kits", "List of available kits");
         $this->plugin = $plugin;
         $this->cooldownManager = $cooldownManager;
-        $this->setPermission("enderkits.kits");
+        $this->setPermission("enderkits.command.kits");
     }
 
     public function getOwningPlugin(): Plugin {
