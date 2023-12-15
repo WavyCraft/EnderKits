@@ -8,13 +8,9 @@ depend: [RankSystem]
 softdepend: [PiggyCustomEnchants]
 
 permissions:
-  enderkits.kit:
+  enderkits.command.kit:
     description: "Enderkits Perm"
     default: true
-  enderkits.kits:
+  enderkits.command.kits:
     description: "Enderkits Perm"
     default: true
-  enderkits.vip:
-    description: "Enderkits Perm"
-    default: op
-
