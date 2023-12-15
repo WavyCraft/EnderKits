@@ -32,7 +32,7 @@ class KitCommand extends Command implements PluginOwned {
         $this->plugin = $plugin;
         $this->cooldownManager = $cooldownManager;
         $this->bankNotesPlusPlugin = $bankNotesPlusPlugin;
-        $this->setPermission("enderkits.kit");
+        $this->setPermission("enderkits.command.kit");
     }
 
     public function getOwningPlugin(): Plugin {
