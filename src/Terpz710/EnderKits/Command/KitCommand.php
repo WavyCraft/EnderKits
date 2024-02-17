@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Terpz710\EnderKits\Command;
 
+use pocketmine\Server;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
@@ -25,13 +26,12 @@ class KitCommand extends Command implements PluginOwned {
 
     private $plugin;
     private $cooldownManager;
-    private $bankNotesPlusPlugin;
 
-    public function __construct(Plugin $plugin, CooldownManager $cooldownManager, BankNotesPlus $bankNotesPlusPlugin) {
+    public function __construct(Plugin $plugin, CooldownManager $cooldownManager) {
         parent::__construct("kit", "Grab a kit! See the list of kits using /kits", "/kit <kitName>");
         $this->plugin = $plugin;
         $this->cooldownManager = $cooldownManager;
-        $this->bankNotesPlusPlugin = $bankNotesPlusPlugin;
+        $this->bankNotesPlusPlugin = Server::getPluginManager()->getPlugin("BankNotesPlus");
         $this->setPermission("enderkits.command.kit");
     }
 
