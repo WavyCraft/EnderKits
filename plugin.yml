@@ -5,7 +5,7 @@ version: 1.0.0-alpha
 api: [5.0.0]
 description: EnderKits plugin for Pocketmine-MP.
 depend: [RankSystem]
-softdepend: [PiggyCustomEnchants, BankNotesPlus]
+softdepend: [PiggyCustomEnchants]
 
 permissions:
   enderkits.command.kit:
