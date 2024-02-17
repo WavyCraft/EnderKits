@@ -21,7 +21,7 @@ class Main extends PluginBase {
         if ($rankSystem !== null) {
             $cooldownManager = new CooldownManager($this);
             $this->getServer()->getCommandMap()->registerAll("EnderKits", [
-			    new KitCommand($this, $cooldownManager, $bankNotePlugin),
+			    new KitCommand($this, $cooldownManager),
 			    new KitsCommand($this, $cooldownManager)
 		    ]);
             $this->saveResource("kits.yml");
