@@ -20,8 +20,10 @@ class Main extends PluginBase {
 
         if ($rankSystem !== null && $bankNotePlugin instanceof BankNotesPlus) {
             $cooldownManager = new CooldownManager($this);
-            $this->getServer()->getCommandMap()->register("kit", new KitCommand($this, $cooldownManager, $bankNotePlugin));
-            $this->getServer()->getCommandMap()->register("kits", new KitsCommand($this, $cooldownManager));
+            $this->getServer()->getCommandMap()->registerAll("EnderKits", [
+			    new KitCommand($this, $cooldownManager, $bankNotePlugin),
+			    new KitsCommand($this, $cooldownManager)
+		    ]);
             $this->saveResource("kits.yml");
 
             $cooldownTask = new CoolDownTask($this);
