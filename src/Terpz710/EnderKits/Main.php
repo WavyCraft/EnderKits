@@ -18,7 +18,7 @@ class Main extends PluginBase {
         $rankSystem = $this->getServer()->getPluginManager()->getPlugin("RankSystem");
         $bankNotePlugin = $this->getServer()->getPluginManager()->getPlugin("BankNotesPlus");
 
-        if ($rankSystem !== null && $bankNotePlugin instanceof BankNotesPlus) {
+        if ($rankSystem !== null) {
             $cooldownManager = new CooldownManager($this);
             $this->getServer()->getCommandMap()->registerAll("EnderKits", [
 			    new KitCommand($this, $cooldownManager, $bankNotePlugin),
