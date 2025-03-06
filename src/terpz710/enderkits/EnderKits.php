@@ -64,6 +64,6 @@ final class EnderKits extends PluginBase {
     }
 
     public function isUiEnabled() : bool{
-        return (bool) $this->getConfig()->get("enable-ui", true);
+        return (bool) $this->getConfig()->get("enable-ui");
     }
 }
