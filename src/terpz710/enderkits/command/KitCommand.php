@@ -39,7 +39,7 @@ class KitCommand extends BaseCommand {
             return;
         }
 
-        if (empty($args["kit"])) {
+        if (!isset($args["kit"])) {
             $kitNames = implode(", ", array_keys($kits));
             $sender->sendMessage("Available kits: " . ($kitNames ?: "No kits available"));
             return;
