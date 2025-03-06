@@ -18,10 +18,14 @@ use pocketmine\item\enchantment\EnchantmentInstance;
 
 use terpz710\enderkits\EnderKits;
 
+use terpz710\banknotesplus\BankNotesPlus;
+
 final class KitManager {
     use SingletonTrait;
 
     protected EnderKits $plugin;
+
+    protected BankNotesPlus $bankNotesPlus;
 
     protected CooldownManager $cooldownManager;
 
@@ -30,6 +34,7 @@ final class KitManager {
     public function __construct() {
         $this->plugin = EnderKits::getInstance();
         $this->cooldownManager = CooldownManager::getInstance();
+        $this->bankNotesPlus = BankNotesPlus::getInstance();
 
         $this->kitsConfig = new Config($this->plugin->getDataFolder() . "kits.yml");
     }
@@ -131,6 +136,14 @@ final class KitManager {
                             $enchantment = StringToEnchantmentParser::getInstance()->parse($enchantName);
                             if ($enchantment !== null) {
                                 $item->addEnchantment(new EnchantmentInstance($enchantment, $level));
+                            }
+                        }
+                    }
+
+                    if (isset($kitData["banknotes"])) {
+                        if ($this->bankNotesPlus instanceof BankNotesPlus) {
+                            foreach ($kitData["banknotes"] as $amount) {
+                                $this->bankNotesPlus->convertToBankNote($player, $amount);
                             }
                         }
                     }
