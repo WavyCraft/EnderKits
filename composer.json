@@ -1,0 +1,16 @@
+{
+    "name": "terpz710/enderkits",
+    "type": "project",
+    "license": "Apache License 2.0",
+    "require": {
+        "pocketmine/pocketmine-mp": "^5.0.0",
+        "cortexpe/commando": "*",
+        "poggit/libasynql": "*",
+        "terpz710/pocketforms": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "EnderKits\\": "src/EnderKits"
+        }
+    }
+}
