@@ -140,9 +140,14 @@ final class KitManager {
                         }
                     }
 
-                    if (isset($kit["banknotes"])) {
-                        if ($this->bankNotesPlus instanceof BankNotesPlus) {
-                            foreach ($kit["banknotes"] as $amount) {
+                    if (isset($kit["banknotes"]) && is_array($kit["banknotes"])) {
+                        foreach ($kit["banknotes"] as $banknoteData) {
+                            if (!isset($banknoteData["amount"])) continue;
+
+                            $amount = $banknoteData["amount"];
+                            $quantity = $banknoteData["quantity"] ?? 1;
+
+                            for ($i = 0; $i < $quantity; $i++) {
                                 $this->bankNotesPlus->convertToBankNote($player, $amount);
                             }
                         }
