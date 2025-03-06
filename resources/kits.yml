@@ -45,10 +45,9 @@ kits:
         quantity: 32
     cooldown: 60
     banknotes:
-      - amount: 1000
-        quantity: 2
-      - amount: 2000
-        quantity: 1
+      - 1000
+      - 5000
+      - 20000
 
   starter:
     kit_name: "Starter"
