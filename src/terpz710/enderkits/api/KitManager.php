@@ -147,6 +147,8 @@ final class KitManager {
                             $amount = $banknoteData["amount"];
                             $quantity = $banknoteData["quantity"];
 
+                            $this->plugin->getLogger()->info("Giving $quantity banknotes of $amount to " . $player->getName());
+
                             for ($i = 0; $i < $quantity; $i++) {
                                 $bankNoteItem = $this->bankNotesPlus->getBankNote($amount, 1);
                                 $player->getInventory()->addItem($bankNoteItem);
