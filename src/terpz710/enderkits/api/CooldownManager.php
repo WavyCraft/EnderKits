@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace terpz710\enderkits\manager;
+namespace terpz710\enderkits\api;
 
 use terpz710\enderkits\EnderKits;
 
