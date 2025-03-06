@@ -140,21 +140,15 @@ final class KitManager {
                         }
                     }
 
-                    foreach ($kit["banknotes"] as $banknoteData) {
-                        if (!isset($banknoteData["amount"])) continue;
-
-                        $amount = $banknoteData["amount"];
-                        $quantity = $banknoteData["quantity"];
-
-                        $this->plugin->getLogger()->info("Giving $quantity banknotes of $amount to " . $player->getName());
-
-                        $bankNoteItem = $this->bankNotesPlus->getBankNote($amount, 1);
-                        $bankNoteItem->setCount($quantity);
-                        $player->getInventory()->addItem($bankNoteItem);
-                    }
-
-
                     $inventory->addItem($item);
+                }
+
+                if (isset($kitData["banknotes"])) {
+                    if ($this->bankNotesPlus instanceof BankNotesPlus) {
+                        foreach ($kitData["banknotes"] as $amount) {
+                            $this->bankNotesPlus->convertToBankNote($player, $amount);
+                        }
+                    }
                 }
             }
 
