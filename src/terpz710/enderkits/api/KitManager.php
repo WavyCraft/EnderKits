@@ -55,13 +55,14 @@ final class KitManager {
         }
 
         $uuid = $player->getUniqueId()->toString();
-        
+    
         $this->cooldownManager->getCooldown($uuid, $kitName, function(int $cooldownTime) use ($player, $kitName, $kit, $uuid) {
             $timeNow = time();
 
             if ($cooldownTime > $timeNow) {
                 $remaining = $cooldownTime - $timeNow;
-                $player->sendMessage(TextColor::RED . "You must wait $remaining seconds before using this kit again.");
+                $formattedTime = $this->formatCooldownTime($remaining);
+                $player->sendMessage(TextColor::RED . "You must wait $formattedTime before using this kit again.");
                 return;
             }
 
@@ -129,5 +130,29 @@ final class KitManager {
 
             $player->sendMessage(TextColor::GREEN . "You received the $kitName kit!");
         });
+    }
+
+    private function formatCooldownTime(int $seconds) : string{
+        $timeUnits = [
+            "year" => 31536000,
+            "month" => 2628002,
+            "week" => 604800,
+            "day" => 86400,
+            "hour" => 3600,
+            "minute" => 60,
+            "second" => 1
+        ];
+
+        $result = [];
+
+        foreach ($timeUnits as $unit => $value) {
+            if ($seconds >= $value) {
+                $count = intdiv($seconds, $value);
+                $seconds %= $value;
+                $result[] = "$count $unit" . ($count > 1 ? "s" : "");
+            }
+        }
+
+        return empty($result) ? "0 seconds" : implode(", ", $result);
     }
 }
