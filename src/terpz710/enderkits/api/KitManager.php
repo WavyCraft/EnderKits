@@ -147,8 +147,10 @@ final class KitManager {
                             $amount = $banknoteData["amount"];
                             $quantity = $banknoteData["quantity"];
 
-                            $bankNoteItem = $this->bankNotesPlus->getBankNote($amount, $quantity);
-                            $player->getInventory()->addItem($bankNoteItem);
+                            for ($i = 0; $i < $quantity; $i++) {
+                                $bankNoteItem = $this->bankNotesPlus->getBankNote($amount, 1);
+                                $player->getInventory()->addItem($bankNoteItem);
+                            }
                         }
                     }
 
