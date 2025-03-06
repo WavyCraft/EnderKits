@@ -1,7 +1,7 @@
 # Made by Terpz710 :p
 
 # If 'true' then a menu of kits show, if 'false' players will have to use commands
-enable-ui: "true"
+enable-ui: true
 
 # Choose a way to store your cooldowns data
 database:
