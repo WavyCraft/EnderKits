@@ -34,11 +34,11 @@ final class KitManager {
         $this->kitsConfig = new Config($this->plugin->getDataFolder() . "kits.yml");
     }
 
-    public function getKits(): array {
+    public function getKits() : array{
         return $this->kitsConfig->get("kits", []);
     }
 
-    public function getKit(string $kitName): ?array{
+    public function getKit(string $kitName) : ?array{
         return $this->kitsConfig->getNested("kits.$kitName");
     }
 
