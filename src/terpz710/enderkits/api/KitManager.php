@@ -34,8 +34,8 @@ final class KitManager {
         $this->kitsConfig = new Config($this->plugin->getDataFolder() . "kits.yml");
     }
 
-    public function getKits() : array{
-        return $this->kitsConfig->getAll();
+    public function getKits(): array {
+        return $this->kitsConfig->get("kits", []);
     }
 
     public function getKit(string $kitName): ?array{
