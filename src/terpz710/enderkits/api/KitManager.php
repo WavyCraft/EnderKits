@@ -143,9 +143,9 @@ final class KitManager {
                     $inventory->addItem($item);
                 }
 
-                if (isset($kitData["banknotes"])) {
+                if (isset($kit["banknotes"])) {
                     if ($this->bankNotesPlus instanceof BankNotesPlus) {
-                        foreach ($kitData["banknotes"] as $amount) {
+                        foreach ($kit["banknotes"] as $amount) {
                             $this->bankNotesPlus->convertToBankNote($player, $amount);
                         }
                     }
