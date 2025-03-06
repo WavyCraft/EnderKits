@@ -6,7 +6,10 @@ namespace terpz710\enderkits\api;
 
 use terpz710\enderkits\EnderKits;
 
+use pocketmine\utils\SingletonTrait;
+
 class CooldownManager {
+    use SingletonTrait;
 
     protected EnderKits $plugin;
 
