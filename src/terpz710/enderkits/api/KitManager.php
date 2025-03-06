@@ -55,7 +55,7 @@ final class KitManager {
         }
 
         $uuid = $player->getUniqueId()->toString();
-    
+
         $this->cooldownManager->getCooldown($uuid, $kitName, function(int $cooldownTime) use ($player, $kitName, $kit, $uuid) {
             $timeNow = time();
 
@@ -66,8 +66,10 @@ final class KitManager {
                 return;
             }
 
+            $inventory = $player->getInventory();
+            $armorInventory = $player->getArmorInventory();
+
             if (isset($kit["armor"])) {
-                $armor = $player->getArmorInventory();
                 foreach ($kit["armor"] as $slot => $armorData) {
                     if (!isset($armorData["item"])) continue;
 
@@ -85,15 +87,27 @@ final class KitManager {
                                 $item->addEnchantment(new EnchantmentInstance($enchantment, $level));
                             }
                         }
-                    }
+                }
 
-                    match ($slot) {
-                        "helmet" => $armor->setHelmet($item),
-                        "chestplate" => $armor->setChestplate($item),
-                        "leggings" => $armor->setLeggings($item),
-                        "boots" => $armor->setBoots($item),
-                        default => null
+                    $hasArmorEquipped = match ($slot) {
+                        "helmet" => !$armorInventory->getHelmet()->isNull(),
+                        "chestplate" => !$armorInventory->getChestplate()->isNull(),
+                        "leggings" => !$armorInventory->getLeggings()->isNull(),
+                        "boots" => !$armorInventory->getBoots()->isNull(),
+                        default => false
                     };
+
+                    if ($hasArmorEquipped) {
+                        $inventory->addItem($item);
+                    } else {
+                        match ($slot) {
+                            "helmet" => $armorInventory->setHelmet($item),
+                            "chestplate" => $armorInventory->setChestplate($item),
+                            "leggings" => $armorInventory->setLeggings($item),
+                            "boots" => $armorInventory->setBoots($item),
+                            default => null
+                        };
+                    }
                 }
             }
 
@@ -121,7 +135,7 @@ final class KitManager {
                         }
                     }
 
-                    $player->getInventory()->addItem($item);
+                    $inventory->addItem($item);
                 }
             }
 
@@ -131,7 +145,7 @@ final class KitManager {
             $player->sendMessage(TextColor::GREEN . "You received the $kitName kit!");
         });
     }
-
+    
     private function formatCooldownTime(int $seconds) : string{
         $timeUnits = [
             "year" => 31536000,
