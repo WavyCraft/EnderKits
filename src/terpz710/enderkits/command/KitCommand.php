@@ -8,6 +8,8 @@ use pocketmine\command\CommandSender;
 
 use pocketmine\player\Player;
 
+use terpz710\enderkits\EnderKits;
+
 use terpz710\enderkits\api\KitManager;
 
 use terpz710\enderkits\form\KitForm;
