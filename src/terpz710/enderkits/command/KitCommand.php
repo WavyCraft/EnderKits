@@ -20,7 +20,7 @@ class KitCommand extends BaseCommand {
     protected function prepare() : void{
         $this->setPermission("enderkits.cmd");
 
-        $this->registerArgument(0, new RawStringArgument("kit"));
+        $this->registerArgument(0, new RawStringArgument("kit", true));
     }
 
     public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void{
