@@ -19,7 +19,7 @@ class CooldownManager {
 
     public function getCooldown(string $uuid, string $kit, callable $callback) : void{
         $this->plugin->getDataBase()->executeSelect("cooldowns.get", ["uuid" => $uuid, "kit" => $kit], function(array $rows) use ($callback) {
-            $cooldownTime = $rows[0]["cooldown"];
+            $cooldownTime = isset($rows[0]) ? $rows[0]["cooldown"] : 0;
             $callback($cooldownTime);
         });
     }
