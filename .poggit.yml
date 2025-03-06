@@ -6,6 +6,14 @@ projects:
   EnderKits:
     path: ""
     icon: icon.PNG
-    lint:
-      phpstan: false
+    libs:
+       - src: poggit/libasynql/libasynql
+         version: ^4.2.3
+       - src: ACM-PocketMine-MP/Commando/Commando
+         version: ^3.2.1
+       - src: Terpz710/libMessages/libMessages
+         version: ^1.0.0
+       - src: terpz710/pocketforms/PocketForms
+         version: ^1.0.0
+    lint: false
 ...
