@@ -41,6 +41,10 @@ kits:
       - item: "steak"
         quantity: 32
     cooldown: 60
+    banknotes:
+      - 1000
+      - 5000
+      - 20000
 
   starter:
     kit_name: "Starter"
