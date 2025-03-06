@@ -145,11 +145,9 @@ final class KitManager {
                             if (!isset($banknoteData["amount"])) continue;
 
                             $amount = $banknoteData["amount"];
-                            $quantity = $banknoteData["quantity"] ?? 1;
+                            $quantity = $banknoteData["quantity"];
 
-                            for ($i = 0; $i < $quantity; $i++) {
-                                $this->bankNotesPlus->convertToBankNote($player, $amount);
-                            }
+                            $this->bankNotesPlus->convertToBankNote($player, $amount, $quantity);
                         }
                     }
 
