@@ -21,13 +21,13 @@ final class KitForm {
         $form->setTitle("Kits");
         $form->setContent("Select a kit:");
 
-        foreach ($this->getKits() as $kitName => $kitData) {
+        foreach (KitManager::getInstance()->getKits() as $kitName => $kitData) {
             $form->addButton($kitName);
         }
 
         $form->setCallback(function (Player $player, $data) {
             if ($data !== null) {
-                $kitNames = array_keys($this->getKits());
+                $kitNames = array_keys(KitManager::getInstance()->getKits());
                 if (isset($kitNames[$data])) {
                     $this->openKitConfirmation($player, $kitNames[$data]);
                 }
