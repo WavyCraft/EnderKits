@@ -30,6 +30,8 @@ final class EnderKits extends PluginBase {
     protected function onEnable() : void{
         $this->saveDefaultConfig();
         $this->saveResource("kits.yml");
+        $this->reloadConfig();
+        $this->getLogger()->info("Config UI Enabled: " . ($this->getConfig()->get("enable-ui") ? "true" : "false"));
 
         if (!PacketHooker::isRegistered()) {
             PacketHooker::register($this);
