@@ -31,6 +31,8 @@ class KitCommand extends BaseCommand {
             return;
         }
 
+        $sender->sendMessage("UI Enabled: " . ($enderKits->isUiEnabled() ? "true" : "false"));
+
         $kitManager = KitManager::getInstance();
         $kits = $kitManager->getKits();
 
