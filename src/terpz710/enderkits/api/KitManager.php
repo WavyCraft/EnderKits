@@ -65,6 +65,7 @@ final class KitManager {
         }
 
         if (isset($kit["permissions"]) && !$player->hasPermission($kit["permissions"])) {
+            $config = new Config($this->plugin->getDataFolder() . "messages.yml");
             $player->sendMessage((string) new Messages($config, "no-kit-permission"));
             return;
         }
@@ -77,6 +78,7 @@ final class KitManager {
             if ($cooldownTime > $timeNow) {
                 $remaining = $cooldownTime - $timeNow;
                 $formattedTime = Utils::formatCooldownTime($remaining);
+                $config = new Config($this->plugin->getDataFolder() . "messages.yml");
                 $player->sendMessage((string) new Messages($config, "kit-on-cooldown", ["{time}"], [$formattedTime]));
                 return;
             }
@@ -164,6 +166,7 @@ final class KitManager {
 
             $cooldownDuration = $kit["cooldown"];
             $this->cooldownManager->setCooldown($uuid, $kitName, $timeNow + $cooldownDuration);
+            $config = new Config($this->plugin->getDataFolder() . "messages.yml");
 
             $player->sendMessage((string) new Messages($config, "kit-recieved", ["{kit_name}"], [$kit["kit_name"]]));
         });
