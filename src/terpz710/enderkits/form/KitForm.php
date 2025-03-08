@@ -21,32 +21,37 @@ final class KitForm {
         $form->setTitle("Kits");
         $form->setContent("Select a kit:");
 
-        foreach (KitManager::getInstance()->getKits() as $kitName => $kitData) {
-            $form->addButton($kitName);
+        $kitManager = KitManager::getInstance();
+        $kitNames = [];
+
+        foreach ($kitManager->getKits() as $kitKey => $kitData) {
+            $displayName = $kitManager->getKitName($kitKey) ?? $kitKey;
+            $kitNames[] = $kitKey;
+            $form->addButton($displayName);
         }
 
-        $form->setCallback(function (Player $player, $data) {
-            if ($data !== null) {
-                $kitNames = array_keys(KitManager::getInstance()->getKits());
-                if (isset($kitNames[$data])) {
-                    $this->openKitConfirmation($player, $kitNames[$data]);
-                }
+        $form->setCallback(function (Player $player, $data) use ($kitNames) {
+            if ($data !== null && isset($kitNames[$data])) {
+                $this->openKitConfirmation($player, $kitNames[$data]);
             }
         });
 
         $player->sendForm($form);
     }
 
-    public function openKitConfirmation(Player $player, string $kitName) : void{
+    public function openKitConfirmation(Player $player, string $kitKey) : void{
+        $kitManager = KitManager::getInstance();
+        $kitName = $kitManager->getKitName($kitKey) ?? $kitKey;
+
         $form = new ModalForm();
         $form->setTitle("Confirm Kit");
         $form->setContent("Are you sure you want to claim the '$kitName' kit?");
         $form->setButton1("Yes");
         $form->setButton2("No");
 
-        $form->setCallback(function (Player $player, bool $data) use ($kitName) {
+        $form->setCallback(function (Player $player, bool $data) use ($kitKey) {
             if ($data) {
-                KitManager::getInstance()->giveKit($player, $kitName);
+                KitManager::getInstance()->giveKit($player, $kitKey);
             } else {
                 $player->sendMessage("Kit selection cancelled.");
             }
