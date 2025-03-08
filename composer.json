@@ -6,7 +6,8 @@
         "pocketmine/pocketmine-mp": "^5.0.0",
         "cortexpe/commando": "*",
         "poggit/libasynql": "*",
-        "terpz710/pocketforms": "*"
+        "terpz710/pocketforms": "*",
+        "terpz710/libmessages": "*"
     },
     "autoload": {
         "psr-0": {
