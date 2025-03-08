@@ -63,7 +63,7 @@ class KitCommand extends BaseCommand {
         }
 
         if ($kitKey === null) {
-            $sender->sendMessage((string) new Messages($config, "kit-not-found", ["{kit_name"], [$args["kit"]]));
+            $sender->sendMessage((string) new Messages($config, "kit-not-found", ["{kit_name}"], [$args["kit"]]));
             return;
         }
 
