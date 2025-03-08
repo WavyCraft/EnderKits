@@ -5,11 +5,18 @@ declare(strict_types=1);
 namespace terpz710\enderkits\command;
 
 use pocketmine\command\CommandSender;
+
 use pocketmine\player\Player;
 
+use pocketmine\utils\Config;
+
 use terpz710\enderkits\EnderKits;
+
 use terpz710\enderkits\api\KitManager;
+
 use terpz710\enderkits\form\KitForm;
+
+use terpz710\messages\Messages;
 
 use CortexPE\Commando\BaseCommand;
 use CortexPE\Commando\args\RawStringArgument;
@@ -23,8 +30,10 @@ class KitCommand extends BaseCommand {
     }
 
     public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void{
+        $config = new Config(EnderKits::getInstance()->getDataFolder() . "messages.yml");
+        
         if (!$sender instanceof Player) {
-            $sender->sendMessage("Use this command in-game!");
+            $sender->sendMessage((string) new Messages($config, "use-command-ingame"));
             return;
         }
 
@@ -54,7 +63,7 @@ class KitCommand extends BaseCommand {
         }
 
         if ($kitKey === null) {
-            $sender->sendMessage("Kit '{$args["kit"]}' does not exist!");
+            $sender->sendMessage((string) new Messages($config, "kit-not-found", ["{kit_name"], [$args["kit"]]));
             return;
         }
 
