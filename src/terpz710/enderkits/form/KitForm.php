@@ -30,8 +30,8 @@ final class KitForm {
         $kitManager = KitManager::getInstance();
         $kitNames = [];
 
-        foreach ($kitManager->getKits() as $kitKey => $kitData) {
-            $displayName = $kitManager->getKitName($kitKey) ?? $kitKey;
+        foreach ((array) $kitManager->getKits() as $kitKey => $kitData) {
+            $displayName = (string) ($kitManager->getKitName($kitKey) ?? $kitKey);
             $kitNames[] = $kitKey;
             $form->addButton((string) new Messages($config, "kit-selection-button", ["{kit_name}"], [$displayName]));
         }
