@@ -36,6 +36,7 @@ final class KitForm {
             $form->addButton((string) new Messages($config, "kit-selection-button", ["{kit_name}"], [$displayName]));
         }
 
+
         $form->setCallback(function (Player $player, $data) use ($kitNames) {
             if ($data !== null && isset($kitNames[$data])) {
                 $this->openKitConfirmation($player, $kitNames[$data]);
