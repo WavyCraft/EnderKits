@@ -1,0 +1,44 @@
+Made by Terpz710 :p
+
+# You may use '&' for color coding (e.g. &aLime green)
+
+# Message when someone runs the command via console
+use-command-ingame: "Use this command in-game!"
+
+# Message when a player enters a kit that doesnt exist via command
+kit-not-found: "&c{kit_name}&f does not exist!"
+
+# Message when a player tries to claim a kit with lacking permissions
+kit-no-permission: "&cYou don't have permission to use this kit!"
+
+# Message when a kit is on cooldown
+kit-on-cooldown: "You must wait &e{time}&f before using this kit again!"
+
+# Message when a player claims a kit
+kit-recieved: "You received the &a{kit_name} kit&f!"
+
+# Edit these options if 'use-ui' is set to true in 'config.yml'
+
+# Form selection title
+kit-selection-title: "Kits"
+
+# Form selection content
+kit-selection-content: "Select a kit:"
+
+# Form selection buttons
+kit-selection-button: "{kit_name}"
+
+# Form confirmation title
+kit-confirmation-title: "Confirmation"
+
+# Form confirmation content
+kit-confirmation-content: "Are you sure you want to claim the {kit_name} &fkit?"
+
+# Form confirmation button 'yes'
+kit-confirmation-button-yes: "Yes"
+
+# Form confirmation button 'no'
+kit-confirmation-button-no: "No"
+
+# Message when the player clicks on 'no'
+kit-confirmation-cancelled: "&cKit selection cancelled!"

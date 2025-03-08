@@ -18,7 +18,11 @@ use pocketmine\item\enchantment\EnchantmentInstance;
 
 use terpz710\enderkits\EnderKits;
 
+use terpz710\enderkits\utils\Utils;
+
 use terpz710\banknotesplus\BankNotesPlus;
+
+use terpz710\messages\Messages;
 
 final class KitManager {
     use SingletonTrait;
@@ -47,15 +51,21 @@ final class KitManager {
         return $this->kitsConfig->getNested("kits.$kitName");
     }
 
+    public function getKitName(string $kitName) : string{
+        $kit = $this->getKit($kitName);
+        return $kit["kit_name"];
+    }
+
     public function giveKit(Player $player, string $kitName) : void{
+        $config = new Config($this->plugin->getDataFolder() . "messages.yml");
         $kit = $this->getKit($kitName);
         if ($kit === null) {
-            $player->sendMessage(TextColor::RED . "Kit does not exist!");
+            $player->sendMessage("Kit does not exist!");
             return;
         }
 
         if (isset($kit["permissions"]) && !$player->hasPermission($kit["permissions"])) {
-            $player->sendMessage(TextColor::RED . "You don't have permission to use this kit!");
+            $player->sendMessage((string) new Messages($config, "no-kit-permission"));
             return;
         }
 
@@ -66,8 +76,8 @@ final class KitManager {
 
             if ($cooldownTime > $timeNow) {
                 $remaining = $cooldownTime - $timeNow;
-                $formattedTime = $this->formatCooldownTime($remaining);
-                $player->sendMessage(TextColor::RED . "You must wait $formattedTime before using this kit again.");
+                $formattedTime = Utils::formatCooldownTime($remaining);
+                $player->sendMessage((string) new Messages($config, "kit-on-cooldown", ["{time}"], [$formattedTime]));
                 return;
             }
 
@@ -140,50 +150,22 @@ final class KitManager {
                         }
                     }
 
-                    if (isset($kit["banknotes"]) && is_array($kit["banknotes"])) {
-                        foreach ($kit["banknotes"] as $banknoteData) {
-                            if (!isset($banknoteData["amount"])) continue;
+                    $inventory->addItem($item);
+                }
 
-                            $amount = $banknoteData["amount"];
-                            $quantity = $banknoteData["quantity"];
-
-                            $bankNoteItem = $this->bankNotesPlus->getBankNote($amount, $quantity);
-                            $player->getInventory()->addItem($bankNoteItem);
+                if (isset($kit["banknotes"])) {
+                    if ($this->bankNotesPlus instanceof BankNotesPlus) {
+                        foreach ($kit["banknotes"] as $amount) {
+                            $this->bankNotesPlus->convertToBankNote($player, $amount);
                         }
                     }
-
-                    $inventory->addItem($item);
                 }
             }
 
             $cooldownDuration = $kit["cooldown"];
             $this->cooldownManager->setCooldown($uuid, $kitName, $timeNow + $cooldownDuration);
 
-            $player->sendMessage(TextColor::GREEN . "You received the $kitName kit!");
+            $player->sendMessage((string) new Messages($config, "kit-recieved", ["{kit_name}"], [$kit["kit_name"]]));
         });
-    }
-    
-    private function formatCooldownTime(int $seconds) : string{
-        $timeUnits = [
-            "year" => 31536000,
-            "month" => 2628002,
-            "week" => 604800,
-            "day" => 86400,
-            "hour" => 3600,
-            "minute" => 60,
-            "second" => 1
-        ];
-
-        $result = [];
-
-        foreach ($timeUnits as $unit => $value) {
-            if ($seconds >= $value) {
-                $count = intdiv($seconds, $value);
-                $seconds %= $value;
-                $result[] = "$count $unit" . ($count > 1 ? "s" : "");
-            }
-        }
-
-        return empty($result) ? "0 seconds" : implode(", ", $result);
     }
 }

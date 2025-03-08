@@ -3,6 +3,8 @@
 # To create a kit follow the preset kit down below!
 # Name, enchantment and banknotes are optional!
 
+# You may use '&' for color coding in the 'name' key
+
 kits:
   test:
     kit_name: "Test"
@@ -30,7 +32,7 @@ kits:
           protection: 2
     items:
       - item: "diamond_sword"
-        name: "Test Sword"
+        name: "&4Test Sword"
         enchantments:
           sharpness: 2
         quantity: 1
@@ -45,10 +47,9 @@ kits:
         quantity: 32
     cooldown: 60
     banknotes:
-      - amount: 1000
-        quantity: 2
-      - amount: 2000
-        quantity: 1
+      - 1000
+      - 5000
+      - 20000
 
   starter:
     kit_name: "Starter"
