@@ -30,6 +30,7 @@ final class EnderKits extends PluginBase {
     protected function onEnable() : void{
         $this->saveDefaultConfig();
         $this->saveResource("kits.yml");
+        $this->saveResource("messages.yml");
 
         if (!PacketHooker::isRegistered()) {
             PacketHooker::register($this);
