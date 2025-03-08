@@ -18,6 +18,8 @@ use pocketmine\item\enchantment\EnchantmentInstance;
 
 use terpz710\enderkits\EnderKits;
 
+use terpz710\enderkits\utils\Utils;
+
 use terpz710\banknotesplus\BankNotesPlus;
 
 final class KitManager {
@@ -71,7 +73,7 @@ final class KitManager {
 
             if ($cooldownTime > $timeNow) {
                 $remaining = $cooldownTime - $timeNow;
-                $formattedTime = $this->formatCooldownTime($remaining);
+                $formattedTime = Utils::formatCooldownTime($remaining);
                 $player->sendMessage(TextColor::RED . "You must wait $formattedTime before using this kit again.");
                 return;
             }
