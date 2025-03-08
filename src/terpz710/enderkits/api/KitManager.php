@@ -22,6 +22,8 @@ use terpz710\enderkits\utils\Utils;
 
 use terpz710\banknotesplus\BankNotesPlus;
 
+use terpz710\messages\Messages;
+
 final class KitManager {
     use SingletonTrait;
 
@@ -55,14 +57,15 @@ final class KitManager {
     }
 
     public function giveKit(Player $player, string $kitName) : void{
+        $config = new Config($this->plugin->getDataFolder() . "messages.yml");
         $kit = $this->getKit($kitName);
         if ($kit === null) {
-            $player->sendMessage(TextColor::RED . "Kit does not exist!");
+            $player->sendMessage("Kit does not exist!");
             return;
         }
 
         if (isset($kit["permissions"]) && !$player->hasPermission($kit["permissions"])) {
-            $player->sendMessage(TextColor::RED . "You don't have permission to use this kit!");
+            $player->sendMessage((string) new Messages($config, "no-kit-permission"));
             return;
         }
 
@@ -74,7 +77,7 @@ final class KitManager {
             if ($cooldownTime > $timeNow) {
                 $remaining = $cooldownTime - $timeNow;
                 $formattedTime = Utils::formatCooldownTime($remaining);
-                $player->sendMessage(TextColor::RED . "You must wait $formattedTime before using this kit again.");
+                $player->sendMessage((string) new Messages($config, "kit-on-cooldown", ["{time}"], [$formattedTime]));
                 return;
             }
 
@@ -162,7 +165,7 @@ final class KitManager {
             $cooldownDuration = $kit["cooldown"];
             $this->cooldownManager->setCooldown($uuid, $kitName, $timeNow + $cooldownDuration);
 
-            $player->sendMessage(TextColor::GREEN . "You received the $kit["kit_name"] kit!");
+            $player->sendMessage((string) new Messages($config, "kit-recieved", ["{kit_name}"], [$kit["kit_name"]]));
         });
     }
 }
