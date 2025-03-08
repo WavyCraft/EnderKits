@@ -33,9 +33,8 @@ final class KitForm {
         foreach ($kitManager->getKits() as $kitKey => $kitData) {
             $displayName = $kitManager->getKitName($kitKey) ?? $kitKey;
             $kitNames[] = $kitKey;
-            $form->addButton((string) new Messages($config, "kit-selection-button", ["{kit_name}"], [$displayName]));
+            $form->addButton((string) new Messages($config, "kit-selection-button", ["{kit_name}"], [(string) $displayName]));
         }
-
 
         $form->setCallback(function (Player $player, $data) use ($kitNames) {
             if ($data !== null && isset($kitNames[$data])) {
