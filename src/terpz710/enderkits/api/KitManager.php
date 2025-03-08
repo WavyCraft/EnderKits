@@ -47,6 +47,11 @@ final class KitManager {
         return $this->kitsConfig->getNested("kits.$kitName");
     }
 
+    public function getKitName(string $kitName) : string{
+        $kit = $this->getKit($kitName);
+        return $kit["kit_name"];
+    }
+
     public function giveKit(Player $player, string $kitName) : void{
         $kit = $this->getKit($kitName);
         if ($kit === null) {
@@ -155,31 +160,7 @@ final class KitManager {
             $cooldownDuration = $kit["cooldown"];
             $this->cooldownManager->setCooldown($uuid, $kitName, $timeNow + $cooldownDuration);
 
-            $player->sendMessage(TextColor::GREEN . "You received the $kitName kit!");
+            $player->sendMessage(TextColor::GREEN . "You received the $kit["kit_name"] kit!");
         });
-    }
-    
-    private function formatCooldownTime(int $seconds) : string{
-        $timeUnits = [
-            "year" => 31536000,
-            "month" => 2628002,
-            "week" => 604800,
-            "day" => 86400,
-            "hour" => 3600,
-            "minute" => 60,
-            "second" => 1
-        ];
-
-        $result = [];
-
-        foreach ($timeUnits as $unit => $value) {
-            if ($seconds >= $value) {
-                $count = intdiv($seconds, $value);
-                $seconds %= $value;
-                $result[] = "$count $unit" . ($count > 1 ? "s" : "");
-            }
-        }
-
-        return empty($result) ? "0 seconds" : implode(", ", $result);
     }
 }
