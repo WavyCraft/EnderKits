@@ -9,7 +9,7 @@ use-command-ingame: "Use this command in-game!"
 kit-not-found: "&c{kit_name}&f does not exist!"
 
 # Message when a player tries to claim a kit with lacking permissions
-kit-no-permission: "&cYou don't have permission to use this kit!"
+no-kit-permission: "&cYou don't have permission to use this kit!"
 
 # Message when a kit is on cooldown
 kit-on-cooldown: "You must wait &e{time}&f before using this kit again!"
